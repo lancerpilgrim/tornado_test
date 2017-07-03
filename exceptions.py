@@ -1,0 +1,2 @@
+class ErrCodeUndefinedException(Exception):
+    pass
