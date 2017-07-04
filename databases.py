@@ -2,7 +2,6 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 from werkzeug.local import LocalProxy
 from sqlalchemy.ext.declarative import declarative_base
-
 import settings
 
 Base = declarative_base()

@@ -8,25 +8,25 @@ from constants import API_CODE_MESSAGE, API_STATUS_CODE, API_CODE_MESSAGE_MAP
 from databases import session
 from settings import logger
 
-
-class JSONResponse(dict):
-    def __init__(self, code=API_STATUS_CODE.API_CODE_OK,
-                 message=API_STATUS_CODE.API_CODE_OK, **kwargs):
-
-        super().__init__(**kwargs)
-
-        if not kwargs:
-            kwargs = {}
-        kwargs.update({'code': code, 'message': message})
-
-        self.kwargs = kwargs
-
-    def __str__(self):
-        return json.dumps(self.kwargs,
-                          cls=JSONResponse.JSONEncoder).replace("</", "<\\/")
-
-    class JSONEncoder(json.JSONEncoder):
-        pass
+#
+# class JSONResponse(dict):
+#     def __init__(self, code=API_STATUS_CODE.API_CODE_OK,
+#                  message=API_STATUS_CODE.API_CODE_OK, **kwargs):
+#
+#         super().__init__(**kwargs)
+#
+#         if not kwargs:
+#             kwargs = {}
+#         kwargs.update({'code': code, 'message': message})
+#
+#         self.kwargs = kwargs
+#
+#     def __str__(self):
+#         return json.dumps(self.kwargs,
+#                           cls=JSONResponse.JSONEncoder).replace("</", "<\\/")
+#
+#     class JSONEncoder(json.JSONEncoder):
+#         pass
 
 
 class APIResponse:
@@ -84,5 +84,3 @@ class APIBaseHandler(RequestHandler):
         logger.info(log_base.format(request_method, response_method, duration))
 
 
-def response_success():
-    return JSONResponse()

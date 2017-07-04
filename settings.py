@@ -59,3 +59,12 @@ class MySQL:
     charset = 'utf8'
     url = 'mysql+pymysql://{}:{}@{}:{}/{}?charset={}'.format(
         user, password, host, port, database, charset)
+
+
+class Server:
+    debug = int(os.getenv('DEBUG', 0)) == 1
+    gzip = True
+    cookie_secret = os.getenv('SERVER_COOKIESECRET',
+                              'c0b19d61e67d57a50d986c1cbc8f1b5d')
+    # template_path = os.getenv('SERVER_TEMPLATE', join(PATH, 'templates'))
+    # static_path = os.getenv('SERVER_STATIC', join(PATH, 'static'))
