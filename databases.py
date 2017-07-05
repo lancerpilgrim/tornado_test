@@ -5,8 +5,7 @@ from sqlalchemy.ext.declarative import declarative_base
 import settings
 
 Base = declarative_base()
-engine = create_engine(settings.MySQL.url, echo=False, pool_recycle=60)
-cms_engine = create_engine(settings.MySQL.url, echo=False, pool_recycle=60)
+engine = create_engine(settings.MySQLServerConfig.url, echo=False, pool_recycle=60)
 session_factory = sessionmaker(bind=engine)
 Session = scoped_session(session_factory)
 session = LocalProxy(Session)

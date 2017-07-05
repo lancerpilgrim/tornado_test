@@ -1,5 +1,4 @@
 from sqlalchemy import Column, Integer, String, DateTime, text
-from sqlalchemy.ext.hybrid import hybrid_property
 from databases import Base
 
 
@@ -23,11 +22,3 @@ class AP(Base):
 
     def __repr__(self):
         return '<AP(mac={})>'.format(self.mac)
-
-    # @hybrid_property
-    # def ctime(self):
-    #     return self.ctime.strftime("%Y-%m-%d %H:%M:%S")
-    #
-    # @hybrid_property
-    # def mtime(self):
-    #     return self.mtime.strftime("%Y-%m-%d %H:%M:%S")

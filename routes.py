@@ -1,7 +1,7 @@
-from db_api import test
+from db_api import ap_info_persistence_handler
 
 
 ROUTES = [
-    (r"/", test.MainHandler),
-    (r"/ap/", test.APInfoPersistenceHandler)
+    (r"/", ap_info_persistence_handler.MainHandler),
+    (r"/ap/", ap_info_persistence_handler.APInfoPersistenceHandler)
 ]

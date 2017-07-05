@@ -1,32 +1,12 @@
 import time
 import json
-import tornado
+
 from tornado.web import RequestHandler
 
-from exceptions import ErrCodeUndefinedException
-from constants import API_CODE_MESSAGE, API_STATUS_CODE, API_CODE_MESSAGE_MAP
+from constants import API_STATUS_CODE, API_CODE_MESSAGE_MAP
 from databases import session
 from settings import logger
-
-#
-# class JSONResponse(dict):
-#     def __init__(self, code=API_STATUS_CODE.API_CODE_OK,
-#                  message=API_STATUS_CODE.API_CODE_OK, **kwargs):
-#
-#         super().__init__(**kwargs)
-#
-#         if not kwargs:
-#             kwargs = {}
-#         kwargs.update({'code': code, 'message': message})
-#
-#         self.kwargs = kwargs
-#
-#     def __str__(self):
-#         return json.dumps(self.kwargs,
-#                           cls=JSONResponse.JSONEncoder).replace("</", "<\\/")
-#
-#     class JSONEncoder(json.JSONEncoder):
-#         pass
+from tools import extract_log_param
 
 
 class APIResponse:
@@ -50,9 +30,26 @@ class APIException(Exception, APIResponse):
 
 class APIBaseHandler(RequestHandler):
 
+    def __init__(self, application, request, **kwargs):
+        super().__init__(application, request, **kwargs)
+        self.request_method = "{0} {1}".format(self.request.method, self.request.uri)
+        self.response_method = "{0}.{1}".format(self.__module__, self.__class__.__name__)
+        self.start_time = time.time()
+
     def initialize(self):
         self.set_header("Access-Control-Allow-Origin", "*")
-        self.start_time = time.time()
+
+        # parameter log
+        log_base_formatter = "Parameter: " \
+                             "[request_method={0}] [response_method={1}] " \
+                             "[remote_ip={2}] [user_agent={3}]"
+        log_base = log_base_formatter.format(
+            self.request_method,
+            self.response_method,
+            self.request.remote_ip,
+            self.request.headers["User-Agent"]
+        )
+        logger.info("{0} {1}".format(log_base, extract_log_param(self.request.arguments)))
 
     def _handle_request_exception(self, e):
         self.set_header("Content-Type", "application/json")
@@ -78,9 +75,9 @@ class APIBaseHandler(RequestHandler):
     def on_finish(self):
         session.close()
         duration = time.time() - self.start_time
-        request_method = "{0} {1}".format(self.request.method, self.request.uri)
-        response_method = "{0}.{1}".format(self.__module__, self.__class__.__name__)
         log_base = "Exit: [request_method={0}] [response_method={1}] [time_cost={2:f}s]"
-        logger.info(log_base.format(request_method, response_method, duration))
+        logger.info(log_base.format(self.request_method, self.response_method, duration))
 
+    def data_received(self, chunk):
+        pass
 

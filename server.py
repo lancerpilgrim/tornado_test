@@ -1,9 +1,15 @@
+__author__ = "Lancer"
+__email__ = "lancerpilgrim@outlook.com"
+__date__ = "$2017-5-20 00:00:00$"
 import os
 import yaml
+
+from tornado import ioloop
+from tornado.web import Application
 from tornado.options import define, options, parse_command_line
-import tornado.ioloop
-import tornado.web
-from settings import logger, Server
+
+from settings import logger
+from settings import WebServerConfig
 from routes import ROUTES
 
 define('port', default=8888, type=int)
@@ -32,15 +38,7 @@ def setup_env(env):
 
 
 def setup_app():
-    """
-    初始化web应用
-    """
-
-    conf = Server
-    application = tornado.web.Application(ROUTES, debug=conf.debug,
-                                          cookie_secret=conf.cookie_secret)
-    # template_path = conf.template_path
-    # static_path = conf.static_path
+    application = Application(ROUTES, **WebServerConfig)
     return application
 
 
@@ -49,5 +47,5 @@ if __name__ == '__main__':
     setup_env(options.env)
     app = setup_app()
     app.listen(options.port, options.host)
-    tornado.ioloop.IOLoop.current().start()
+    ioloop.IOLoop.current().start()
     logger.info('Run server on port {}'.format(options.port))

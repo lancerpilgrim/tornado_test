@@ -4,7 +4,7 @@ import logging.config
 from werkzeug.local import LocalProxy
 
 
-class Log:
+class LogConfig:
     conf = {
         'version': 1,
         'formatters': {
@@ -50,7 +50,7 @@ class Log:
 logger = logging.getLogger('api')
 
 
-class MySQL:
+class MySQLServerConfig:
     host = os.getenv('MYSQL_BD_HOST', '127.0.0.1')
     port = int(os.getenv('MYSQL_BD_PORT', 3306))
     user = os.getenv('MYSQL_BD_USER', 'root')
@@ -61,10 +61,10 @@ class MySQL:
         user, password, host, port, database, charset)
 
 
-class Server:
-    debug = int(os.getenv('DEBUG', 0)) == 1
-    gzip = True
-    cookie_secret = os.getenv('SERVER_COOKIESECRET',
-                              'c0b19d61e67d57a50d986c1cbc8f1b5d')
-    # template_path = os.getenv('SERVER_TEMPLATE', join(PATH, 'templates'))
-    # static_path = os.getenv('SERVER_STATIC', join(PATH, 'static'))
+WebServerConfig = {
+    "debug": int(os.getenv('DEBUG', 0)) == 1,
+    "gzip": True,
+    "cookie_secret": os.getenv('SERVER_COOKIESECRET',
+                               'c0b19d61e67d57a50d986c1cbc8f1b5d')
+
+}
