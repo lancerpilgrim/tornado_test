@@ -1,6 +1,6 @@
 from tornado.escape import json_decode
 
-from settings import logger
+from config import logger
 from databases import session
 from utils import APIBaseHandler
 from tools import extract_obj_attr

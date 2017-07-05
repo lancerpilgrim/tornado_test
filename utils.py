@@ -5,7 +5,7 @@ from tornado.web import RequestHandler
 
 from constants import API_STATUS_CODE, API_CODE_MESSAGE_MAP
 from databases import session
-from settings import logger
+from config.config import logger
 from tools import extract_log_param
 
 

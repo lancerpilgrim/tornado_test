@@ -8,8 +8,7 @@ from tornado import ioloop
 from tornado.web import Application
 from tornado.options import define, options, parse_command_line
 
-from settings import logger
-from settings import WebServerConfig
+from config.config import logger, WebServerConfig
 from routes import ROUTES
 
 define('port', default=8888, type=int)

@@ -4,6 +4,10 @@ import logging.config
 from werkzeug.local import LocalProxy
 
 
+class Configuration:
+    pass
+
+
 class LogConfig:
     conf = {
         'version': 1,
